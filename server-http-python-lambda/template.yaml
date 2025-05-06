@@ -11,8 +11,8 @@ Parameters:
 Globals:
   Function:
     Timeout: 60
-    Runtime: python3.12
-    Architectures: [x86_64]
+    Runtime: python3.13
+    # Architectures: [x86_64]
 
 Resources:
   McpApi:

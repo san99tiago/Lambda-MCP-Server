@@ -1,5 +1,5 @@
 export const bedrockConfig = {
-    modelId: process.env.BEDROCK_MODEL_ID || 'us.amazon.nova-pro-v1:0',
+    modelId: process.env.BEDROCK_MODEL_ID || 'us.amazon.nova-lite-v1:0',
     region: process.env.AWS_REGION || 'us-west-2',
     systemPrompt: process.env.BEDROCK_SYSTEM_PROMPT || `You are a helpful assistant that can use tools to help you answer questions and perform tasks.
 

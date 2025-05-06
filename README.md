@@ -1,6 +1,6 @@
-# Lambda MCP Server Demo (Streamable HTTP) 
+# Lambda MCP Server Demo (Streamable HTTP)
 
-> This server requires a client that supports Streamable HTTP (not SSE).  There are very few MCP clients that currently support Streamable HTTP (let me know if you have one), as such there is a Streamable HTTP client included in this repo, built with the [TypeScript MCP SDK which does support Streamable HTTP](https://github.com/modelcontextprotocol/typescript-sdk?tab=readme-ov-file#streamable-http).
+> This server requires a client that supports Streamable HTTP (not SSE). There are very few MCP clients that currently support Streamable HTTP (let me know if you have one), as such there is a Streamable HTTP client included in this repo, built with the [TypeScript MCP SDK which does support Streamable HTTP](https://github.com/modelcontextprotocol/typescript-sdk?tab=readme-ov-file#streamable-http).
 
 This project demonstrates a powerful and developer-friendly way to create serverless [MCP (Model Context Protocol)](https://github.com/modelcontextprotocol) tools using [AWS Lambda](https://aws.amazon.com/lambda/?trk=64e03f01-b931-4384-846e-db0ba9fa89f5&sc_channel=code). It showcases how to build a stateless, serverless MCP server with minimal boilerplate and an excellent developer experience.
 
@@ -33,10 +33,10 @@ def say_hello_world() -> int:
 
 def lambda_handler(event, context):
     """AWS Lambda handler function."""
-    return mcp_server.handle_request(event, context) 
+    return mcp_server.handle_request(event, context)
 ```
 
-That's it! :) 
+That's it! :)
 
 ## Session State Management
 
@@ -58,13 +58,13 @@ def increment_counter() -> int:
     """Increment a session-based counter."""
     # Get the current counter value from session state, default to 0 if not set
     counter = mcp_server.session.get('counter', 0)
-    
+
     # Increment the counter
     counter += 1
-    
+
     # Store the new value in session state
     mcp_server.session['counter'] = counter
-    
+
     return counter
 
 @mcp_server.tool()
@@ -80,7 +80,8 @@ The session state is automatically managed per conversation and persists across 
 The sample server stack uses Bearer token authentication via an Authorization header, which is compliant with the MCP standard. This provides a basic level of security for your MCP server endpoints. Here's what you need to know:
 
 1. **Bearer Token**: When you deploy the stack, a bearer token is configured through a custom authorizer in API Gateway
-2. **Using the Bearer Token**: 
+2. **Using the Bearer Token**:
+
    - The client must include the bearer token in requests using the `Authorization` header with the format: `Bearer <your-token>`
    - The token value is provided in the stack outputs after deployment
    - The sample client is configured to automatically include this header when provided with the token
@@ -90,6 +91,7 @@ The sample server stack uses Bearer token authentication via an Authorization he
 ⚠️ **Security Note**: The `run-client.sh` script will store the provided bearer token in a file called `.mcp-api-token` as well as the provided URL in `.mcp-config`. While this is a convenience, this is not a production ready implementation.
 
 ⚠️ **Security Note**: While bearer token authentication provides a standard-compliant authentication mechanism, consider implementing additional security measures such as:
+
 - AWS IAM roles and policies
 - OAuth 2.0 / JWT with proper token management
 - Amazon Cognito User Pools
@@ -134,26 +136,30 @@ Before running the client, ensure you have:
 ### Server Deployment
 
 1. Clone this repository:
+
    ```bash
    git clone <repository-url>
    ```
 
 1. Navigate to the server directory:
+
    ```bash
    cd server-http-python-lambda
    ```
 
 1. Deploy using SAM:
+
    ```bash
    sam build
    sam deploy --guided
    ```
 
-   Note: You will be prompted for an `McpAuthToken`.  This is the Authorization Bearer token that will be requitred to call the endpoint. This simple implimentation uses an [AWS API Gateway authorizers](https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-use-lambda-authorizer.html?trk=64e03f01-b931-4384-846e-db0ba9fa89f5&sc_channel=code) with the `McpAuthToken` passed in as an env var.  This can be swapped out for a production implimentation as required. 
+   Note: You will be prompted for an `McpAuthToken`. This is the Authorization Bearer token that will be required to call the endpoint. This simple implementation uses an [AWS API Gateway authorizers](https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-use-lambda-authorizer.html?trk=64e03f01-b931-4384-846e-db0ba9fa89f5&sc_channel=code) with the `McpAuthToken` passed in as an env var. This can be swapped out for a production implementation as required.
 
 ### Client Setup
 
 1. Navigate to the client directory:
+
    ```bash
    cd client-http-typescript-docker
    ```
@@ -174,11 +180,11 @@ The Lambda MCP Server is designed to make tool creation as simple as possible. H
 @mcp_server.tool()
 def my_new_tool(param1: str, param2: int) -> str:
     """Your tool description.
-    
+
     Args:
         param1: Description of param1
         param2: Description of param2
-        
+
     Returns:
         Description of return value
     """
@@ -187,6 +193,7 @@ def my_new_tool(param1: str, param2: int) -> str:
 ```
 
 That's it! The decorator handles:
+
 - Type validation
 - Request parsing
 - Response formatting
@@ -211,6 +218,7 @@ This library is licensed under the [MIT-0 License](https://github.com/aws/mit-0)
 ## Changes
 
 ### Version 1.1.0
+
 - Replaced API Key authentication with Bearer token authentication via Authorization header
 - Added custom authorizer to API Gateway for token validation
 - Updated client configuration to use bearer tokens
@@ -218,6 +226,7 @@ This library is licensed under the [MIT-0 License](https://github.com/aws/mit-0)
 - Added this change log section
 
 ### Version 1.0.0
+
 - Initial release
 - Basic MCP server implementation with AWS Lambda
 - Session state management with DynamoDB
